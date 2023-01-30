@@ -1,0 +1,11 @@
+#!/bin/sh
+
+TARGET_IPSET='wan'
+TARGET_IPs_LIST='/var/ir.domains.list'
+
+_ret=1
+if [ -s "$TARGET_IPs_LIST" ]; then
+	awk -v  ipset="$TARGET_IPSET" '{print "add " ipset " " $1}' "$TARGET_IPs_LIST" | ipset restore -! && _ret=0
+fi
+
+return $_ret
